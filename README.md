@@ -1,4 +1,39 @@
-# 🤖 Enterprise AI Tools — Adoption Board
+# 🤖 Note salienti per l'adozione di strumenti AI nel lavoro quotidiano
+
+# Introduzione:
+In base alle recenti esperienze e ricerche di mercato, l'adozione degli strumenti AI di gran parte degli sviluppatori è in continua crescita, sia che venga dichiarato o non.
+
+### Numeri chiave
+
+| Indicatore | Valore | Fonte |
+|---|---|---|
+| Sviluppatori che usano o prevedono AI tools | **84%** | [Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/ai/) |
+| Sviluppatori che usano AI tools quotidianamente | **51%** | [Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/ai/) |
+| Accelerazione completamento task con Copilot | **+55%** | [GitHub Research: Developer Productivity](https://github.blog) |
+
+
+Gli apparenti vantaggi che questa tecnologia offre, nonchè la "moda" del momento fanno si che vengano adottati in modo pericoloso e talvolta irresponsabile.
+Un esempio potrebbe essere il condividere un intero progetto che espone nei suoi file di configurazione le credenziali di acesso a un DB con all'interno i dati sensibili del cliente. Per uno strumento di AI, costruirsi degli automatismi per navigare per l'intero DB non è fantascenza, ma una possibilità reale. Infatti ci sono degli "Agent" AI che fomentano e si pubblicizzano con questo vantaggio.
+
+
+Gli sviluppatori che usano o prevedono AI tools sono il **84%** come lo indica lo studio di [Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/ai/)
+
+Nonostante i rischi di utilizzo sbagliato, ci sono dei punti dove l'adozione dell'IA l'ho trovata alquanto vantaggiosa:
+- Code base giornaliero guidato
+- Progettazione software generale
+- Costruzione di tools/scripts per l'automazione (IaC)
+- Documentazione (creazione e revisione)
+- Creazione Unit Tests
+- Scouting/Ricerche guidate
+- Pianificazione e costruzione tasks lists
+
+
+
+
+
+- Mancano regolamentazioni aziendali per l'utilizzo di strumenti AI 
+
+
 
 > **Documento strategico per l'introduzione, regolamentazione e gestione degli strumenti AI generativi nel team di sviluppo**
 > Versione 1.0 — Febbraio 2026 · Classificazione: **Confidenziale — Uso Interno**
