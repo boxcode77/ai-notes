@@ -32,7 +32,7 @@ Il dato più preoccupante riguarda la governance: il **63% delle organizzazioni 
 
 ---
 > [!WARNING]
-> Se la vostra organizzazione non ha ancora una policy formale sull'uso degli AI tools, statisticamente il team sta già usando strumenti non approvati con accesso al codice sorgente aziendale. Non è un'ipotesi: è il caso del 49% delle aziende esaminate.
+> Se la nostra organizzazione non ha ancora una policy formale sull'uso degli AI tools, statisticamente il team sta già usando strumenti non approvati con accesso al codice sorgente aziendale [-](https://www.csoonline.com/article/4111384/top-5-real-world-ai-security-threats-revealed-in-2025.html).
 
 ---
 
