@@ -14,11 +14,9 @@ Questo documento non ha lo scopo di scoraggiare l'adozione — i vantaggi sono r
 Da un'altro canto, lo scopo di questo documento e cercare di creare le basi affinchè l'utilizzo di queste tecnologie in crescita possano trarre vantaggi tangibili alla azienda ed alla buona riuscita delle azioni produttive.
 
 ---
-
+>[!WARNING]
 > *"L'adozione dell'AI sta superando di gran lunga la governance dell'AI. Le organizzazioni che sorpassano sicurezza e governance in favore di un'adozione immediata stanno pagando un prezzo molto alto."*
 > — [IBM Cost of a Data Breach Report, Luglio 2025](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls)
-
----
 
 ---
 
@@ -32,6 +30,7 @@ Le conseguenze di questa "Shadow AI" sono misurabili in termini economici. Il [C
 
 Il dato più preoccupante riguarda la governance: il **63% delle organizzazioni violate non ha una policy di governance AI o la sta ancora sviluppando**. Di quelle che ce l'hanno, solo il **34% effettua audit regolari per rilevare l'uso di AI non approvata**.
 
+---
 > [!WARNING]
 > Se la vostra organizzazione non ha ancora una policy formale sull'uso degli AI tools, statisticamente il team sta già usando strumenti non approvati con accesso al codice sorgente aziendale. Non è un'ipotesi: è il caso del 49% delle aziende esaminate.
 
@@ -52,50 +51,7 @@ Sul fronte SQL — particolarmente rilevante per il nostro stack su SQL Server �
 
 ---
 
-## 3. Gli AI Agent Come Superficie d'Attacco
-
-Quando uno sviluppatore configura un AI agent con accesso al repository, al filesystem locale e agli strumenti di build — come avviene normalmente con Claude Code o con Copilot Chat nella modalità agent — sta creando un **nuovo vettore di attacco** che i tradizionali strumenti di sicurezza non vedono.
-
-### 3.1 Prompt Injection: il Nuovo SQL Injection
-
-Secondo [OWASP Top 10 per LLM Applications 2025](https://www.obsidiansecurity.com/blog/prompt-injection), la **prompt injection è la vulnerabilità critica #1**, presente nel **73% dei deployment AI in produzione** valutati durante audit di sicurezza.
-
-Il meccanismo è semplice da comprendere ma difficile da difendere: un attaccante inserisce istruzioni malevole in dati che l'agente leggerà nel corso normale del suo lavoro — un issue su GitHub, un file di documentazione, un commento in un ticket. L'agente le interpreta come istruzioni legittime e le esegue.
-
-**Maggio 2025 — GitHub MCP Data Heist:** [Invariant Labs ha dimostrato una vulnerabilità critica nel Model Context Protocol (MCP) di GitHub](https://securityboulevard.com/2026/02/protecting-ai-security-2025-hot-security-incident/). Un attaccante inseriva comandi malevoli all'interno di Issue pubblici di repository GitHub. Quando l'agente AI veniva invocato per leggere e processare l'issue, eseguiva indiscriminatamente i comandi incorporati, estraendo dati sensibili — **codice sorgente di repository privati e chiavi crittografiche** — e trasmettendoli verso destinazioni controllate dall'attaccante. L'attacco ha aggirato completamente il sistema di controllo dei permessi di GitHub.
-
-La causa tecnica è strutturale: quando un agente esegue azioni utilizzando le credenziali GitHub del developer, **non distingue tra "descrizione del task dell'utente" e "comandi iniettati dall'attaccante"** nell'Issue. Poiché i developer concedono ai propri agenti permessi a livello globale su GitHub, senza segmentazione fine-grained per operazioni di lettura/scrittura/esecuzione, questo permette agli attaccanti di dirottare l'agente locale e rubare dati sensibili.
-
-### 3.2 Vulnerabilità nel Protocollo MCP
-
-Il Model Context Protocol — l'infrastruttura su cui si basano le integrazioni degli agenti con tool esterni — ha rivelato nel 2025 una serie di vulnerabilità critiche che hanno impattato direttamente i developer che usavano AI agent in modo non supervisionato.
-
-**[CVE-2025-6514](https://authzed.com/blog/timeline-mcp-breaches) — Remote Code Execution su 437.000+ ambienti:** JFrog ha divulgato un bug critico in `mcp-remote`, il proxy OAuth usato per connettere i client MCP locali a server remoti. Server MCP malevoli potevano inviare un `authorization_endpoint` che `mcp-remote` passava direttamente alla shell di sistema, ottenendo **remote code execution sulla macchina del developer**. Con oltre 437.000 download e adozione in Cloudflare, Hugging Face e Auth0, la vulnerabilità trasformava qualsiasi installazione non aggiornata in un backdoor della supply chain: un attaccante poteva eseguire comandi arbitrari, sottrarre chiavi API, credenziali cloud, file locali, chiavi SSH e contenuti di repository Git — semplicemente puntando il tool AI verso un endpoint MCP malevolo.
-
-In un [caso separato documentato nella stessa timeline](https://authzed.com/blog/timeline-mcp-breaches), un package MCP che si spacciava per un legittimo "Postmark MCP Server" iniettava **copie BCC di tutte le comunicazioni email** — inclusi documenti confidenziali, memo interni e fatture — verso un server controllato dall'attaccante. Il vettore era la supply chain: un package malevolo nel registro MCP, eseguito con i privilegi elevati tipici dei server MCP.
-
-### 3.3 Tool Poisoning e Attacchi alla Supply Chain
-
-[Ricercatori di Palo Alto Networks Unit 42](https://stytch.com/blog/mcp-vulnerabilities/) hanno dimostrato uno scenario in cui la descrizione di un tool malevolo istruiva l'agente AI a **copiare ogni frammento di codice visualizzato e inviarlo a un server remoto**, senza alcun avviso all'utente. In pratica: ogni volta che un developer usava l'agente con un tool di editing del codice, ogni pezzo di codice poteva essere trasmesso all'attaccante. Come ulteriore vettore, un attacco di "retrieval-agent deception" consisteva nel contaminare la documentazione in modo che, quando l'agente la leggeva, eseguisse comandi nascosti per cercare nel sistema le AWS key e pubblicarle online.
-
-> [!CAUTION]
-> Gli strumenti AI agent che utilizzano MCP non sono distinguibili dagli strumenti legittimi sul piano dell'interfaccia utente. Un developer che installa un MCP server da una fonte non verificata — es. un repository GitHub qualsiasi — potrebbe star eseguendo codice che ha accesso completo al suo filesystem, alle sue credenziali e al codice sorgente aziendale.
-
----
-
-## 4. Il Rischio dei Permessi Eccessivi
-
-Un tema trasversale a tutti gli incidenti documentati è quello dei **permessi eccessivi**: gli agenti AI vengono configurati con accesso molto più ampio del necessario, per convenienza o per mancanza di policy.
-
-Il [Cost of a Data Breach Report 2025 di IBM](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls) ha rilevato che il **97% delle organizzazioni che ha subito una violazione AI non aveva controlli di accesso AI in attività**. Il 60% degli incidenti di sicurezza AI ha portato a **compromissione di dati**, il 31% a **interruzione operativa**.
-
-La logica del "privilegio minimo" — dare ad ogni sistema solo i permessi strettamente necessari per il suo scopo — è un principio consolidato nella sicurezza informatica. Gli AI agent la violano strutturalmente quando vengono configurati dai developer in modo informale: è più semplice dare un Personal Access Token con accesso a tutti i repository che configurare permessi granulari, e in assenza di una policy aziendale, quasi tutti i developer scelgono la strada più rapida.
-
-[Ricercatori di Check Point e Lakera, nell'analisi del Q4 2025](https://www.esecurityplanet.com/artificial-intelligence/ai-agent-attacks-in-q4-2025-signal-new-risks-for-2026/), hanno documentato che **gli attacchi indiretti che sfruttano le capacità degli agenti** — navigazione web, accesso a documenti, chiamate a tool — **hanno successo con meno tentativi e impatto più ampio** rispetto alle injection dirette. Le tecniche degli attaccanti evolvono alla stessa velocità dei progressi nelle capacità AI.
-
----
-
-## 5. Impatto Amplificato: La Velocità Come Fattore di Rischio
+## 3. Impatto Amplificato: La Velocità Come Fattore di Rischio
 
 > [!IMPORTANT]
 >C'è un paradosso nel cuore degli AI agent per il coding: la stessa caratteristica che li rende così produttivi — la velocità e l'autonomia nell'esecuzione — è quella che amplifica l'impatto degli errori e delle vulnerabilità.
@@ -105,6 +61,49 @@ Un developer umano che commette un errore di sicurezza inserisce una vulnerabili
 Secondo Randall Degges, Head of Developer and Security Relations di [Snyk](https://fortune.com/2025/12/15/ai-coding-tools-security-exploit-software/): *"La supply chain è sempre stata un punto debole per i developer software in particolare. È sempre stato un problema, ma ora è ancora più prevalente con gli AI tools."* La natura agentic degli strumenti amplifica ogni vulnerabilità preesistente nella supply chain.
 
 Un ulteriore vettore spesso sottovalutato è il **typosquatting** potenziato dall'AI: attori malevoli creano package o estensioni AI con nomi quasi identici a quelli legittimi. In [un caso documentato da Fortune nel 2025](https://fortune.com/2025/12/15/ai-coding-tools-security-exploit-software/), un core developer di Ethereum ha visto il proprio crypto wallet svuotato dopo aver scaricato per errore un'estensione malevola per il popolare AI coding tool Cursor. Gli AI tool amplificano questo rischio perché, sempre più spesso, sono loro stessi a suggerire e installare dipendenze.
+
+---
+
+## 4. Gli AI Agent Come Superficie d'Attacco
+
+Quando uno sviluppatore configura un AI agent con accesso al repository, al filesystem locale e agli strumenti di build — come avviene normalmente con Claude Code o con Copilot Chat nella modalità agent — sta creando un **nuovo vettore di attacco** che i tradizionali strumenti di sicurezza non vedono.
+
+### 4.1 Prompt Injection: il Nuovo SQL Injection
+
+Secondo [OWASP Top 10 per LLM Applications 2025](https://www.obsidiansecurity.com/blog/prompt-injection), la **prompt injection è la vulnerabilità critica #1**, presente nel **73% dei deployment AI in produzione** valutati durante audit di sicurezza.
+
+Il meccanismo è semplice da comprendere ma difficile da difendere: un attaccante inserisce istruzioni malevole in dati che l'agente leggerà nel corso normale del suo lavoro — un issue su GitHub, un file di documentazione, un commento in un ticket. L'agente le interpreta come istruzioni legittime e le esegue.
+
+**Maggio 2025 — GitHub MCP Data Heist:** [Invariant Labs ha dimostrato una vulnerabilità critica nel Model Context Protocol (MCP) di GitHub](https://securityboulevard.com/2026/02/protecting-ai-security-2025-hot-security-incident/). Un attaccante inseriva comandi malevoli all'interno di Issue pubblici di repository GitHub. Quando l'agente AI veniva invocato per leggere e processare l'issue, eseguiva indiscriminatamente i comandi incorporati, estraendo dati sensibili — **codice sorgente di repository privati e chiavi crittografiche** — e trasmettendoli verso destinazioni controllate dall'attaccante. L'attacco ha aggirato completamente il sistema di controllo dei permessi di GitHub.
+
+La causa tecnica è strutturale: quando un agente esegue azioni utilizzando le credenziali GitHub del developer, **non distingue tra "descrizione del task dell'utente" e "comandi iniettati dall'attaccante"** nell'Issue. Poiché i developer concedono ai propri agenti permessi a livello globale su GitHub, senza segmentazione fine-grained per operazioni di lettura/scrittura/esecuzione, questo permette agli attaccanti di dirottare l'agente locale e rubare dati sensibili.
+
+### 4.2 Vulnerabilità nel Protocollo MCP
+
+Il Model Context Protocol — l'infrastruttura su cui si basano le integrazioni degli agenti con tool esterni — ha rivelato nel 2025 una serie di vulnerabilità critiche che hanno impattato direttamente i developer che usavano AI agent in modo non supervisionato.
+
+**[CVE-2025-6514](https://authzed.com/blog/timeline-mcp-breaches) — Remote Code Execution su 437.000+ ambienti:** JFrog ha divulgato un bug critico in `mcp-remote`, il proxy OAuth usato per connettere i client MCP locali a server remoti. Server MCP malevoli potevano inviare un `authorization_endpoint` che `mcp-remote` passava direttamente alla shell di sistema, ottenendo **remote code execution sulla macchina del developer**. Con oltre 437.000 download e adozione in Cloudflare, Hugging Face e Auth0, la vulnerabilità trasformava qualsiasi installazione non aggiornata in un backdoor della supply chain: un attaccante poteva eseguire comandi arbitrari, sottrarre chiavi API, credenziali cloud, file locali, chiavi SSH e contenuti di repository Git — semplicemente puntando il tool AI verso un endpoint MCP malevolo.
+
+In un [caso separato documentato nella stessa timeline](https://authzed.com/blog/timeline-mcp-breaches), un package MCP che si spacciava per un legittimo "Postmark MCP Server" iniettava **copie BCC di tutte le comunicazioni email** — inclusi documenti confidenziali, memo interni e fatture — verso un server controllato dall'attaccante. Il vettore era la supply chain: un package malevolo nel registro MCP, eseguito con i privilegi elevati tipici dei server MCP.
+
+### 4.3 Tool Poisoning e Attacchi alla Supply Chain
+
+[Ricercatori di Palo Alto Networks Unit 42](https://stytch.com/blog/mcp-vulnerabilities/) hanno dimostrato uno scenario in cui la descrizione di un tool malevolo istruiva l'agente AI a **copiare ogni frammento di codice visualizzato e inviarlo a un server remoto**, senza alcun avviso all'utente. In pratica: ogni volta che un developer usava l'agente con un tool di editing del codice, ogni pezzo di codice poteva essere trasmesso all'attaccante. Come ulteriore vettore, un attacco di "retrieval-agent deception" consisteva nel contaminare la documentazione in modo che, quando l'agente la leggeva, eseguisse comandi nascosti per cercare nel sistema le AWS key e pubblicarle online.
+
+> [!CAUTION]
+> Gli strumenti AI agent che utilizzano MCP non sono distinguibili dagli strumenti legittimi sul piano dell'interfaccia utente. Un developer che installa un MCP server da una fonte non verificata — es. un repository GitHub qualsiasi — potrebbe star eseguendo codice che ha accesso completo al suo filesystem, alle sue credenziali e al codice sorgente aziendale.
+
+---
+
+## 5. Il Rischio dei Permessi Eccessivi
+
+Un tema trasversale a tutti gli incidenti documentati è quello dei **permessi eccessivi**: gli agenti AI vengono configurati con accesso molto più ampio del necessario, per convenienza o per mancanza di policy.
+
+Il [Cost of a Data Breach Report 2025 di IBM](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls) ha rilevato che il **97% delle organizzazioni che ha subito una violazione AI non aveva controlli di accesso AI in attività**. Il 60% degli incidenti di sicurezza AI ha portato a **compromissione di dati**, il 31% a **interruzione operativa**.
+
+La logica del "privilegio minimo" — dare ad ogni sistema solo i permessi strettamente necessari per il suo scopo — è un principio consolidato nella sicurezza informatica. Gli AI agent la violano strutturalmente quando vengono configurati dai developer in modo informale: è più semplice dare un Personal Access Token con accesso a tutti i repository che configurare permessi granulari, e in assenza di una policy aziendale, quasi tutti i developer scelgono la strada più rapida.
+
+[Ricercatori di Check Point e Lakera, nell'analisi del Q4 2025](https://www.esecurityplanet.com/artificial-intelligence/ai-agent-attacks-in-q4-2025-signal-new-risks-for-2026/), hanno documentato che **gli attacchi indiretti che sfruttano le capacità degli agenti** — navigazione web, accesso a documenti, chiamate a tool — **hanno successo con meno tentativi e impatto più ampio** rispetto alle injection dirette. Le tecniche degli attaccanti evolvono alla stessa velocità dei progressi nelle capacità AI.
 
 ---
 
