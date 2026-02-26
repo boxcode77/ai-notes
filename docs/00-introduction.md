@@ -2,22 +2,23 @@
 
 [Torna all'indice](../README.md) · [Prossimo: Trend di Mercato →](01-market-trends.md)
 
+
+## Il Contesto
+
+Gli AI Agent per lo sviluppo software — Claude Code, GitHub Copilot, Cursor e strumenti analoghi — sono oggi tra le tecnologie più trasformative a disposizione di un team di sviluppo. Promettono, e in molti casi mantengono, guadagni di produttività straordinari: task che richiedevano giorni si comprimono in ore, la curva di apprendimento su nuove tecnologie si appiattisce ed i bug possono essere intercettati prima.
+
+Ma questi strumenti portano con sé una caratteristica unica rispetto a qualsiasi software adottato in precedenza: **agiscono**. Non si limitano a rispondere a domande. Leggono il codebase, eseguono comandi, accedono a repository, interrogano database, invocano API. Operano con i **privilegi del developer che li ha configurati**. Molte volte questa caratteristica non viene correttamente considerata per diverse cause e potrebbe essere rischiosa tanto quanto vantaggiosa.
+
+Questo documento non ha lo scopo di scoraggiare l'adozione — i vantaggi sono reali e sostanziali, come illustrato nelle sezioni successive. L'obiettivo è fornire al management e al team tecnico un quadro onesto dei rischi, affinché le decisioni di adozione siano informate e la governance che costruiremo insieme sia proporzionata alla posta in gioco.
+
+Da un'altro canto, lo scopo di questo documento e cercare di creare le basi affinchè l'utilizzo di queste tecnologie in crescita possano trarre vantaggi tangibili alla azienda ed alla buona riuscita delle azioni produttive.
+
 ---
 
 > *"L'adozione dell'AI sta superando di gran lunga la governance dell'AI. Le organizzazioni che sorpassano sicurezza e governance in favore di un'adozione immediata stanno pagando un prezzo molto alto."*
 > — [IBM Cost of a Data Breach Report, Luglio 2025](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls)
 
 ---
-
-## Il Contesto
-
-Gli AI Agent per lo sviluppo software — Claude Code, GitHub Copilot, Cursor e strumenti analoghi — sono oggi tra le tecnologie più trasformative a disposizione di un team di sviluppo. Promettono, e in molti casi mantengono, guadagni di produttività straordinari: task che richiedevano giorni si comprimono in ore, la curva di apprendimento su nuove tecnologie si appiattisce, i bug vengono intercettati prima.
-
-Ma questi strumenti portano con sé una caratteristica unica rispetto a qualsiasi software adottato in precedenza: **agiscono**. Non si limitano a rispondere a domande. Leggono il codebase, eseguono comandi, accedono a repository, interrogano database, invocano API. Operano con i **privilegi del developer che li ha configurati**.
-
-Questo è esattamente il motivo per cui un'adozione senza governance strutturata non è semplicemente sub-ottimale. È un rischio concreto, documentato da incidenti reali avvenuti nel 2025.
-
-Questo documento non ha lo scopo di scoraggiare l'adozione — i vantaggi sono reali e sostanziali, come illustrato nelle sezioni successive. L'obiettivo è fornire al management e al team tecnico un quadro onesto dei rischi, affinché le decisioni di adozione siano informate e la governance che costruiremo insieme sia proporzionata alla posta in gioco.
 
 ---
 
@@ -96,7 +97,8 @@ La logica del "privilegio minimo" — dare ad ogni sistema solo i permessi stret
 
 ## 5. Impatto Amplificato: La Velocità Come Fattore di Rischio
 
-C'è un paradosso nel cuore degli AI agent per il coding: la stessa caratteristica che li rende così produttivi — la velocità e l'autonomia nell'esecuzione — è quella che amplifica l'impatto degli errori e delle vulnerabilità.
+> [!IMPORTANT]
+>C'è un paradosso nel cuore degli AI agent per il coding: la stessa caratteristica che li rende così produttivi — la velocità e l'autonomia nell'esecuzione — è quella che amplifica l'impatto degli errori e delle vulnerabilità.
 
 Un developer umano che commette un errore di sicurezza inserisce una vulnerabilità alla volta, nel tempo di scrittura di una funzione. Un AI agent che opera su istruzioni errate o su prompt iniettati può modificare decine di file, invocare API, commitare codice e triggerare pipeline CI/CD in pochi minuti — tutto con la credibilità di un tool "approvato".
 
