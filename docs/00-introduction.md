@@ -2,7 +2,6 @@
 
 [Torna all'indice](../README.md) · [Prossimo: Trend di Mercato →](01-market-trends.md)
 
-
 ## Il Contesto
 
 Gli AI Agent per lo sviluppo software — Claude Code, GitHub Copilot, Cursor e strumenti analoghi — sono oggi tra le tecnologie più trasformative a disposizione di un team di sviluppo. Promettono, e in molti casi mantengono, guadagni di produttività straordinari: task che richiedevano giorni si comprimono in ore, la curva di apprendimento su nuove tecnologie si appiattisce ed i bug possono essere intercettati prima.
@@ -20,7 +19,7 @@ Da un'altro canto, lo scopo di questo documento e cercare di creare le basi affi
 
 ---
 
-## 1. Il Problema della Shadow AI
+## 1. Shadow AI e governance mancante
 
 Prima ancora di analizzare le vulnerabilità tecniche, esiste un rischio organizzativo che molte aziende ignorano: il team **sta già usando** strumenti AI non approvati.
 
@@ -28,7 +27,7 @@ Una [survey su 2.000 dipendenti in USA e UK condotta da CSO Online (2025)](https
 
 Le conseguenze di questa "Shadow AI" sono misurabili in termini economici. Il [Cost of a Data Breach Report 2025 di IBM](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls) — basato su 600 organizzazioni compromesse — ha rilevato che **1 azienda su 5 ha subito una violazione dovuta a Shadow AI**, con un costo medio della violazione di **$670.000 superiore** rispetto alle violazioni standard ($4,63M vs $3,96M). La Shadow AI è ora uno dei tre fattori di costo più elevati nei data breach.
 
-Il dato più preoccupante riguarda la governance: il **63% delle organizzazioni violate non ha una policy di governance AI o la sta ancora sviluppando**. Di quelle che ce l'hanno, solo il **34% effettua audit regolari per rilevare l'uso di AI non approvata**.
+Ma, oltre alle misurazioni di perdite economiche che sono relative e riguardano diversi aspetti aziendali, c'è un dato più preoccupante **"la governance e controllo"**: il **63% delle organizzazioni violate non ha una policy di governance AI o la sta ancora sviluppando**. Di quelle che ce l'hanno, solo il **34% effettua audit regolari per rilevare l'uso di AI non approvata**.
 
 ---
 > [!WARNING]
@@ -107,7 +106,7 @@ La logica del "privilegio minimo" — dare ad ogni sistema solo i permessi stret
 
 ---
 
-## 6. Il Quadro Normativo che Si Sta Stringendo
+## 6. Quadro Normativo
 
 Il contesto regolatorio europeo e internazionale sta evolvendo rapidamente in risposta a questi rischi, aggiungendo un livello di obblighi legali all'imperativo di sicurezza.
 
@@ -121,7 +120,8 @@ Il **[NIST AI Risk Management Framework](https://www.nist.gov/artificial-intelli
 
 Tutti gli incidenti documentati in questo capitolo condividono una caratteristica comune: **sarebbero stati prevenibili** con policy chiare, configurazioni con privilegio minimo e un processo di review del codice AI-generato.
 
-Non si tratta di vietare gli strumenti AI — sarebbe controproducente e, come mostrano i dati sulla Shadow AI, inefficace. Si tratta di adottarli come si adotta qualsiasi tecnologia critica: con una valutazione del rischio, una policy d'uso, una configurazione enterprise e un training adeguato del team.
+>[!IMPORTANT]
+>Non si tratta di vietare gli strumenti AI — sarebbe controproducente e, come mostrano i dati sulla Shadow AI, inefficace. Si tratta di adottarli come si adotta qualsiasi tecnologia critica: con una valutazione del rischio, una policy d'uso, una configurazione enterprise e un training adeguato del team.
 
 Le organizzazioni che hanno policy di governance AI attive e audit regolari mostrano costi di breach significativamente inferiori e — fatto ancora più rilevante — una **capacità di recupero post-incidente drasticamente più rapida**. Il [dato IBM 2025](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls) mostra che la maggior parte delle organizzazioni senza governance impiega oltre 100 giorni per riprendersi da una violazione.
 
