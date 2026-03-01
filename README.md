@@ -20,7 +20,7 @@ Gli sviluppatori che usano o prevedono AI tools sono il **84%** come lo indica l
 
 Nonostante i rischi di utilizzo sbagliato, ci sono dei punti dove l'adozione dell'IA l'ho trovata alquanto vantaggiosa:
 - Code base giornaliero guidato
-- Progettazione software generale
+- Progettazione software ed infrastruttura guidata
 - Costruzione di tools/scripts per l'automazione (IaC)
 - Documentazione (creazione e revisione)
 - Creazione Unit Tests

@@ -6,7 +6,16 @@
 
 Gli AI Agent per lo sviluppo software — Claude Code, GitHub Copilot, Cursor e strumenti analoghi — sono oggi tra le tecnologie più trasformative a disposizione di un team di sviluppo. Promettono, e in molti casi mantengono, guadagni di produttività straordinari: task che richiedevano giorni si comprimono in ore, la curva di apprendimento su nuove tecnologie si appiattisce ed i bug possono essere intercettati prima.
 
-Ma questi strumenti portano con sé una caratteristica unica rispetto a qualsiasi software adottato in precedenza: **agiscono**. Non si limitano a rispondere a domande. Leggono il codebase, eseguono comandi, accedono a repository, interrogano database, invocano API. Operano con i **privilegi del developer che li ha configurati**. Molte volte questa caratteristica non viene correttamente considerata per diverse cause e potrebbe essere rischiosa tanto quanto vantaggiosa.
+Le principali aree dove l'ho trovata vantaggiosa sono:
+- Code base giornaliero guidato
+- Progettazione software ed infrastruttura guidata
+- Costruzione di tools/scripts per l'automazione (IaC)
+- Documentazione (creazione e revisione)
+- Creazione Unit Tests
+- Scouting/Ricerche guidate
+- Pianificazione e costruzione tasks lists
+
+Ma questi strumenti portano con sé una caratteristica unica rispetto a qualsiasi software adottato in precedenza: **agiscono** e **generano** contenuto in base al contesto di lavoro. Non si limitano a rispondere a domande. Leggono il codebase, eseguono comandi, accedono a repository, interrogano database, invocano API. Operano con i **privilegi del developer che li ha configurati**. Molte volte questa caratteristica non viene correttamente considerata per diverse cause e potrebbe essere rischiosa tanto quanto vantaggiosa.
 
 Questo documento non ha lo scopo di scoraggiare l'adozione — i vantaggi sono reali e sostanziali, come illustrato nelle sezioni successive. L'obiettivo è fornire al management e al team tecnico un quadro onesto dei rischi, affinché le decisioni di adozione siano informate e la governance che costruiremo insieme sia proporzionata alla posta in gioco.
 
