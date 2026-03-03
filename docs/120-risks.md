@@ -2,7 +2,7 @@
 # Rischi dell'utilizzo di AI senza governance
 
 ---
->[!WARNING]
+> [!WARNING]
 > *"L'adozione dell'AI sta superando di gran lunga la governance dell'AI. Le organizzazioni che sorpassano sicurezza e governance in favore di un'adozione immediata stanno pagando un prezzo molto alto."*
 > — [IBM Cost of a Data Breach Report, Luglio 2025](https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications,-97-of-which-reported-lacking-proper-ai-access-controls)
 
